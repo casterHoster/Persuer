@@ -1,17 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class RigidbodyMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private GameObject _stepRayLower;
-    [SerializeField] private GameObject _stepRayUpper;
-    [SerializeField] private float stepSmooth;
-    [SerializeField] private float _rayLowerLenght;
-    [SerializeField] private float _rayUpperLenght;
+    [SerializeField] private CharacterControllerMovement _characterMovement;
+    [SerializeField] private float _distance;
 
     private Rigidbody _rigidbody;
     private Vector3 _playerShift;
@@ -23,30 +17,16 @@ public class RigidbodyMovement : MonoBehaviour
 
     private void Update()
     {
-        DefinePlayerShift();
-
+        MoveTowardsPlayer();
         _rigidbody.velocity = _playerShift;
-        //_rigidbody.velocity += Physics.gravity;
-        //StepClimb();
-        Debug.DrawRay(_stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), Color.red);
-        Debug.DrawRay(_stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), Color.red);
     }
 
-    private Vector3 DefinePlayerShift()
+    private void MoveTowardsPlayer()
     {
-        _playerShift = new Vector3(Input.GetAxis("Horizontal") * _speed, _rigidbody.velocity.y, Input.GetAxis("Vertical") * _speed);
-        return _playerShift;
-    }
+        float distanceX = Mathf.Abs(_characterMovement.transform.position.x - _rigidbody.position.x);
+        float distanceZ = Mathf.Abs(_characterMovement.transform.position.z - _rigidbody.position.z);
 
-    //private void StepClimb()
-    //{
-    //    if (Physics.Raycast(_stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hitLower, _rayLowerLenght))
-    //    {
-    //        Debug.Log(hitLower);
-    //        if (!Physics.Raycast(_stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hitUpper, _rayUpperLenght))
-    //        {
-    //            _rigidbody.position += new Vector3(0, stepSmooth, 0);
-    //        }
-    //    }
-    //}
+        if (distanceX > _distance || distanceZ > _distance)
+            _rigidbody.position = Vector3.MoveTowards(_rigidbody.position, _characterMovement.transform.position, _speed);
+    }
 }
