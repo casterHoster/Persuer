@@ -1974,7 +1974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e73cc0d5512ad478c2f5af940da184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.1
+  _speed: 1
   _characterMovement: {fileID: 1524155797}
   _distance: 2
 --- !u!54 &1612448058

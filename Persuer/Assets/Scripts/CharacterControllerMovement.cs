@@ -7,6 +7,8 @@ public class CharacterControllerMovement : MonoBehaviour
     
     private CharacterController _characterController;
     private Vector3 _playerShift;
+    private string _inputX = "Horizontal";
+    private string _inputZ = "Vertical";
 
     private void Awake()
     {
@@ -32,7 +34,7 @@ public class CharacterControllerMovement : MonoBehaviour
 
     private Vector3 DefinePlayerShift()
     {
-        _playerShift = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        _playerShift = new Vector3(Input.GetAxis(_inputX), 0, Input.GetAxis(_inputZ));
         _playerShift *= _speed * Time.deltaTime;
         return _playerShift;
     }

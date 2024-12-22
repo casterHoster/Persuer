@@ -18,7 +18,6 @@ public class RigidbodyMovement : MonoBehaviour
     private void Update()
     {
         MoveTowardsPlayer();
-        _rigidbody.velocity = _playerShift;
     }
 
     private void MoveTowardsPlayer()
@@ -27,6 +26,9 @@ public class RigidbodyMovement : MonoBehaviour
         float distanceZ = Mathf.Abs(_characterMovement.transform.position.z - _rigidbody.position.z);
 
         if (distanceX > _distance || distanceZ > _distance)
-            _rigidbody.position = Vector3.MoveTowards(_rigidbody.position, _characterMovement.transform.position, _speed);
+        {
+            _playerShift = new Vector3(_characterMovement.transform.position.x, _characterMovement.transform.position.y, _characterMovement.transform.position.z);
+            _rigidbody.MovePosition(_rigidbody.position + _playerShift * (_speed * Time.deltaTime));
+        }
     }
 }
